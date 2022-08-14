@@ -6,11 +6,11 @@ function LoginForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   function handleSignUp(e) {
     e.preventDefault();
     console.log(name, email, password);
-
     createUserWithEmailAndPassword(auth, email, password)
       .then((authUser) => {
         // console.log(authUser.user);
@@ -21,7 +21,8 @@ function LoginForm() {
         });
       })
       .catch((e) => {
-        alert(e);
+        // alert(e.message);
+        setError(e.message);
       });
   }
 
@@ -57,6 +58,7 @@ function LoginForm() {
       </div>
 
       <button type="submit">Sign Up</button>
+      {error && <p>{error}</p>}
     </form>
   );
 }

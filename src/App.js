@@ -1,43 +1,36 @@
 import "./styles/App.css";
-import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
-import { auth, provider } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 import { useEffect, useState } from "react";
-import SignUpForm from "./components/SignUpForm";
+
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import { useNavigate } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   const [user, setUser] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(auth, (authUser) => {
-      console.log(authUser);
       if (authUser) {
+        // user is logged in
         setUser(authUser);
+        navigate("/");
+      } else {
+        // user is not logged in
+        setUser(null);
+        navigate("/login");
       }
     });
-  }, []);
-
-  function handleGoogleLogin() {
-    signInWithPopup(auth, provider).catch((err) => {
-      alert(err);
-    });
-  }
-
-  function handleLogout() {
-    signOut(auth).then(() => {
-      setUser(null);
-    });
-  }
+  }, [navigate]);
 
   return (
-    <div className="app">
-      <h1>Hello React</h1>
-      <button onClick={handleGoogleLogin}> Sign in with Google</button>
-      <button onClick={handleLogout}> Logout</button>
-      {user && <h2>{user.displayName}</h2>}
-      {user && <h2>{user.email}</h2>}
-
-      {!user && <SignUpForm />}
-    </div>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/" element={<HomePage user={user} setUser={setUser} />} />
+    </Routes>
   );
 }
 
