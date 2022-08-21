@@ -2,3 +2,22 @@
   margin: auto;
   max-width: 1200px;
 }
+
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  max-width: 1000px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.nav-link {
+  margin: 0 0.5rem;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
