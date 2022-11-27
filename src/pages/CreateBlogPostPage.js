@@ -15,14 +15,16 @@ function CreateBlogPostPage({ user }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!text) return;
 
-    // add new doc to firestore
+    // new post doc
     const doc = {
       author: user.displayName,
       authorId: user.uid,
       text: text,
       timestamp: serverTimestamp(),
     };
+
     // then version
     // addDoc(collection(db, "posts"), doc)
     //   .then((snapshot) => {
@@ -42,12 +44,18 @@ function CreateBlogPostPage({ user }) {
   }
 
   return (
-    <div>
+    <div className="app">
       <form onSubmit={handleSubmit}>
-        <label>Text: </label>
-        <br />
-        <textarea value={text} onChange={handleTextChange}></textarea>
-        <button type="submit"> Submit </button>
+        <label className="label">Text</label>
+        <textarea
+          className="textarea"
+          value={text}
+          onChange={handleTextChange}
+          placeholder="write something..."
+        ></textarea>
+        <button className="btn-primary" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

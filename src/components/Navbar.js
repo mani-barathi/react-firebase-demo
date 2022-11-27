@@ -12,18 +12,22 @@ function Navbar({ user, setUser }) {
 
   return (
     <div className="nav">
-      {user && (
-        // Fragment
-        <>
-          <Link to={"/"} className="nav-link">
-            Home
-          </Link>
-          <Link to={"/create"} className="nav-link">
-            Create
-          </Link>
-          <button onClick={handleLogout}> Logout</button>
-        </>
-      )}
+      <div className="nav-container">
+        {user && (
+          // Fragment
+          <>
+            <Link to={"/"} className="nav-link">
+              Home
+            </Link>
+            <Link to={"/create"} className="nav-link">
+              Create
+            </Link>
+            <button className="nav-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

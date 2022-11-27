@@ -30,16 +30,16 @@ function HomePage({ user }) {
   return (
     <div className="app">
       <h1>HomePage</h1>
+      <h3>Welcome {user.displayName}!</h3>
 
-      {user && <h2>{user.displayName}</h2>}
-      {user && <h2>{user.email}</h2>}
-
-      {posts.map((post) => (
-        <div key={post.id}>
-          <h3> {post.author}</h3>
-          <p> {post.text} </p>
-        </div>
-      ))}
+      <div>
+        {posts.map((post) => (
+          <div key={post.id} className="postcard">
+            <h3> {post.author}</h3>
+            <p> {post.text} </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

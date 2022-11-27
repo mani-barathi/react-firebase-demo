@@ -17,16 +17,19 @@ function LoginForm() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (e) {
+      console.log(e.message);
       setError(e.message);
     }
   }
 
   return (
-    <form onSubmit={handleLogin} style={{ padding: "1rem" }}>
+    <form className="form" onSubmit={handleLogin}>
       <h2> Login</h2>
 
       <div>
+        <label className="label">Email</label>
         <input
+          className="form-input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email"
@@ -35,7 +38,9 @@ function LoginForm() {
         />
       </div>
       <div>
+        <label className="label">Password</label>
         <input
+          className="form-input"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter your password"
@@ -44,9 +49,11 @@ function LoginForm() {
         />
       </div>
 
-      <button type="submit">Login</button>
+      <button className="btn-primary w-100" type="submit">
+        Login
+      </button>
 
-      {error && <p>{error}</p>}
+      {error && <div className="error-card">{error}</div>}
     </form>
   );
 }

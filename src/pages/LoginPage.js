@@ -29,14 +29,15 @@ function LoginPage({ setUser, user }) {
   }, [navigate, setUser]);
 
   return (
-    <div>
-      <button style={{ margin: "1rem" }} onClick={handleGoogleLogin}>
-        Sign in with Google
-      </button>
+    <div className="app">
+      <div className="login-wrapper">
+        <LoginForm />
+        <SignUpForm />
 
-      <LoginForm />
-
-      <SignUpForm />
+        <button className="btn-primary w-100" onClick={handleGoogleLogin}>
+          Sign in with Google
+        </button>
+      </div>
     </div>
   );
 }

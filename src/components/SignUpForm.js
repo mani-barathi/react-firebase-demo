@@ -27,10 +27,12 @@ function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSignUp} style={{ padding: "1rem" }}>
+    <form className="form" onSubmit={handleSignUp}>
       <h2> Sign Up</h2>
       <div>
+        <label className="label">Name</label>
         <input
+          className="form-input"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter your Name"
@@ -39,7 +41,9 @@ function LoginForm() {
         />
       </div>
       <div>
+        <label className="label">Email</label>
         <input
+          className="form-input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email"
@@ -48,7 +52,9 @@ function LoginForm() {
         />
       </div>
       <div>
+        <label className="label">Password</label>
         <input
+          className="form-input"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter your password"
@@ -57,8 +63,10 @@ function LoginForm() {
         />
       </div>
 
-      <button type="submit">Sign Up</button>
-      {error && <p>{error}</p>}
+      <button className="btn-primary w-100" type="submit">
+        Sign Up
+      </button>
+      {error && <div className="error-card">{error}</div>}
     </form>
   );
 }
