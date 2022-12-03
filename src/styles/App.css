@@ -23,7 +23,6 @@ h3 {
 }
 
 .btn-primary {
-  cursor: pointer;
   font-size: 1rem;
   border-radius: 3px;
   transition: all 0.1s ease-in;
@@ -35,14 +34,28 @@ h3 {
   letter-spacing: 1px;
 }
 
+.btn-secondary {
+  font-size: 1rem;
+  font-size: 1rem;
+  border-radius: 3px;
+  transition: all 0.1s ease-in;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  background-color: rgb(176, 176, 176);
+  color: black;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
 .btn-primary:hover,
-.btn-primary:focus-visible {
-  /* background-color: rgb(208, 208, 208);
-  color: black; */
+.btn-primary:focus-visible,
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
   box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.597);
 }
 
-.btn-primary:active {
+.btn-primary:active,
+.btn-secondary:active {
   transform: scale(95%);
 }
 
