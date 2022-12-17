@@ -1,9 +1,9 @@
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
 import ReactMarkdown from "react-markdown";
+import { db } from "../firebase";
 
-function HomePage({ user }) {
+function DraftPostPage({ user }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -11,28 +11,23 @@ function HomePage({ user }) {
     const q = query(
       collectionRef,
       orderBy("timestamp", "desc"),
-      where("published", "==", true)
+      // where("published", "==", false),
+      where("authorId", "==", user.uid)
     );
-
-    // adding conditions
-    // const q = query(collectionRef, where("author", "==", "mani"));
 
     getDocs(q).then((snapshot) => {
       const docs = snapshot.docs.map((doc) => {
         const data = doc.data();
-        // return { id: doc.id, author: data.author, text: data.text, timestamp: data.timestamp }
         return { id: doc.id, ...data };
       });
 
-      console.log(docs);
       setPosts(docs);
     });
-    //  getDocs(query(collection(db, 'posts')))
   }, []);
 
   return (
     <div className="app">
-      <h1>HomePage</h1>
+      <h1>My Posts</h1>
       <h3>Welcome {user.displayName}!</h3>
 
       <div>
@@ -48,4 +43,4 @@ function HomePage({ user }) {
   );
 }
 
-export default HomePage;
+export default DraftPostPage;

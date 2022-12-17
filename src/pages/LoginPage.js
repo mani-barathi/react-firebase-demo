@@ -1,12 +1,14 @@
 import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
 import SignUpForm from "../components/SignUpForm";
 import { auth, provider } from "../firebase";
 
 function LoginPage({ setUser, user }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log("location state", location.state);
 
   function handleGoogleLogin() {
     signInWithPopup(auth, provider).catch((err) => {
@@ -19,7 +21,11 @@ function LoginPage({ setUser, user }) {
       if (authUser) {
         // user is logged in
         setUser(authUser);
-        navigate("/");
+        if (location.state?.path) {
+          navigate(location.state.path);
+        } else {
+          navigate("/");
+        }
       } else {
         // user is not logged in
         setUser(null);

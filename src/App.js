@@ -8,6 +8,8 @@ import LoginPage from "./pages/LoginPage";
 
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import EditBlogPostPage from "./pages/EditBlogPostPage";
+import MyPostsPage from "./pages/MyPostsPage";
 
 function App() {
   const [user, setUser] = useState();
@@ -28,6 +30,23 @@ function App() {
         {/* <ProtectedRoute user={user}>
           <Route path="/" element={<HomePage user={user} />} />
         </ProtectedRoute> */}
+        <Route
+          path="/myposts"
+          element={
+            <ProtectedRoute user={user}>
+              <MyPostsPage user={user} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/edit/:postId"
+          element={
+            <ProtectedRoute user={user}>
+              <EditBlogPostPage user={user} />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/login"
@@ -42,6 +61,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="*" element={<h1>Page not found(404)</h1>} />
       </Routes>
     </div>
   );
