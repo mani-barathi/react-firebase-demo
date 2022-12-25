@@ -39,17 +39,16 @@ function DraftPostPage({ user }) {
 
   return (
     <div className="app">
-      <div>
-        <h1>My Posts</h1>
-        <h3>Welcome {user.displayName}!</h3>
-      </div>
-      <div>
+      <h1>My Posts</h1>
+
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button
           className={isPublishedPosts ? "btn-primary" : "btn-secondary"}
+          style={{ marginRight: "1rem" }}
           onClick={() => setIsPublishedPosts(true)}
         >
           Published Posts
-        </button>{" "}
+        </button>
         <button
           className={!isPublishedPosts ? "btn-primary" : "btn-secondary"}
           onClick={() => setIsPublishedPosts(false)}
@@ -57,6 +56,7 @@ function DraftPostPage({ user }) {
           Draft Posts
         </button>
       </div>
+
       <div>{renderPosts()}</div>
     </div>
   );

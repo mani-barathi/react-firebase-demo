@@ -7,7 +7,9 @@
 /* 
 --------- text, form, button, input ------------------------------
 */
-
+a {
+  text-decoration: none;
+}
 h1,
 h2,
 h3 {
@@ -159,6 +161,10 @@ h3 {
 --------- Home Page ------------------------------
 */
 
+.postcard-link {
+  text-decoration: none;
+  color: black;
+}
 .postcard {
   padding: 0.5rem 0.7rem;
   border: 1px solid rgb(208, 208, 208);
@@ -166,6 +172,9 @@ h3 {
   margin: 1rem 0;
   background-color: white;
   box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.233);
+}
+.postcard:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 /* 

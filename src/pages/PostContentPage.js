@@ -36,14 +36,21 @@ function PostContentPage({ user }) {
 
   return (
     <div className="app">
-      {post.authorId === user.uid && (
-        <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h1 style={{ flex: "1", marginRight: "1rem" }}>{post.title}</h1>
+        {post.authorId === user.uid && (
           <Link to={`/edit/${post.id}`} className="btn-primary">
             Edit
           </Link>
-        </div>
-      )}
-      <h1>{post.title}</h1>
+        )}
+      </div>
+
       <h3>{post.author}</h3>
       <ReactMarkdown>{post.text}</ReactMarkdown>
     </div>
