@@ -1,9 +1,11 @@
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import PostCard from "../components/PostCard";
 import { db } from "../firebase";
 
 function DraftPostPage({ user }) {
   const [posts, setPosts] = useState([]);
+  const [isPublishedPosts, setIsPublishedPosts] = useState(true);
 
   useEffect(() => {
     const collectionRef = collection(db, "posts");
@@ -24,28 +26,38 @@ function DraftPostPage({ user }) {
     });
   }, [user.uid]);
 
+  const renderPosts = () => {
+    const data = posts.map((post) => {
+      if (post.published === isPublishedPosts) {
+        return <PostCard post={post} />;
+      }
+      return null;
+    });
+
+    return data;
+  };
+
   return (
     <div className="app">
-      <h1>My Posts</h1>
-      <h3>Welcome {user.displayName}!</h3>
-
       <div>
-        {posts.map((post) => (
-          <div key={post.id} className="postcard">
-            <h3> {post.title}</h3>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <img
-                src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
-                width={32}
-                height={32}
-                style={{ marginRight: "8px" }}
-                alt=""
-              />
-              <h5>{post.author}</h5>
-            </div>
-          </div>
-        ))}
+        <h1>My Posts</h1>
+        <h3>Welcome {user.displayName}!</h3>
       </div>
+      <div>
+        <button
+          className={isPublishedPosts ? "btn-primary" : "btn-secondary"}
+          onClick={() => setIsPublishedPosts(true)}
+        >
+          Published Posts
+        </button>{" "}
+        <button
+          className={!isPublishedPosts ? "btn-primary" : "btn-secondary"}
+          onClick={() => setIsPublishedPosts(false)}
+        >
+          Draft Posts
+        </button>
+      </div>
+      <div>{renderPosts()}</div>
     </div>
   );
 }

@@ -11,10 +11,10 @@ const categoryOptions = [
 ];
 
 function BlogPostForm({ onSubmitFn, user, post }) {
-  const [text, setText] = useState("");
-  const [category, setCategory] = useState("");
-  const [title, setTitle] = useState("");
-  const [published, setPublished] = useState(false);
+  const [text, setText] = useState(post ? post.text : "");
+  const [category, setCategory] = useState(post ? post.category : "");
+  const [title, setTitle] = useState(post ? post.title : "");
+  const [published, setPublished] = useState(post ? post.published : false);
 
   const handleTextChange = (e) => {
     console.log("type");

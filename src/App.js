@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EditBlogPostPage from "./pages/EditBlogPostPage";
 import MyPostsPage from "./pages/MyPostsPage";
+import PostContentPage from "./pages/PostContentPage";
 
 function App() {
   const [user, setUser] = useState();
@@ -44,6 +45,15 @@ function App() {
           element={
             <ProtectedRoute user={user}>
               <EditBlogPostPage user={user} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/post/:postId"
+          element={
+            <ProtectedRoute user={user}>
+              <PostContentPage user={user} />
             </ProtectedRoute>
           }
         />
