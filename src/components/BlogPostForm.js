@@ -57,7 +57,10 @@ function BlogPostForm({ onSubmitFn, user, post }) {
 
       <div>
         <label className="label">Category</label>
-        <select onChange={(e) => setCategory(e.target.value)}>
+        <select
+          className="select"
+          onChange={(e) => setCategory(e.target.value)}
+        >
           <option defaultChecked value={""}>
             Select a Category
           </option>
@@ -80,11 +83,12 @@ function BlogPostForm({ onSubmitFn, user, post }) {
         ></textarea>
       </div>
 
-      <div className="">
+      <div className="form-check-group">
         <input
           checked={published}
           id="publish"
           type="checkbox"
+          className="form-check"
           onChange={(e) => setPublished(e.target.checked)}
         />
         <label htmlFor="publish">Publish</label>

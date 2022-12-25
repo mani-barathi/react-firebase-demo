@@ -8,7 +8,6 @@ import { auth, provider } from "../firebase";
 function LoginPage({ setUser, user }) {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("location state", location.state);
 
   function handleGoogleLogin() {
     signInWithPopup(auth, provider).catch((err) => {
@@ -32,7 +31,7 @@ function LoginPage({ setUser, user }) {
         // navigate("/login");
       }
     });
-  }, [navigate, setUser]);
+  }, [navigate, setUser, location.state?.path]);
 
   return (
     <div className="app">

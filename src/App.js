@@ -62,7 +62,14 @@ function App() {
           }
         />
 
-        <Route path="*" element={<h1>Page not found(404)</h1>} />
+        <Route
+          path="*"
+          element={
+            <h1 style={{ textAlign: "center", margin: "2rem" }}>
+              Page not found(404)
+            </h1>
+          }
+        />
       </Routes>
     </div>
   );

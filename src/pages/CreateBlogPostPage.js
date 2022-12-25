@@ -1,5 +1,5 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import React, { useState } from "react";
+import { addDoc, collection } from "firebase/firestore";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import BlogPostForm from "../components/BlogPostForm";
 import { db } from "../firebase";

@@ -22,6 +22,9 @@ function Navbar({ user, setUser }) {
             <Link to={"/create"} className="nav-link">
               Create
             </Link>
+            <Link to={"/myposts"} className="nav-link">
+              MyPosts
+            </Link>
             <button className="nav-btn" onClick={handleLogout}>
               Logout
             </button>
