@@ -19,7 +19,6 @@ function App() {
 
   return (
     <AuthContext.Provider value={[user, setUser]}>
-    <div>
       <Navbar />
       <Routes>
         <Route
@@ -84,7 +83,6 @@ function App() {
           }
         />
       </Routes>
-    </div>
     </AuthContext.Provider>
   );
 }

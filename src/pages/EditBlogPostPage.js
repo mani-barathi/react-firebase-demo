@@ -48,7 +48,7 @@ function EditBlogPostPage() {
   if (loading) {
     return (
       <div className="app">
-        <h1>Loading...</h1>
+        <h1 className="text-center mtb-5">Loading...</h1>
       </div>
     );
   }
@@ -56,7 +56,7 @@ function EditBlogPostPage() {
   if (error) {
     return (
       <div className="app">
-        <h1>{error}</h1>
+        <h1 className="text-center mtb-5">{error}</h1>
       </div>
     );
   }

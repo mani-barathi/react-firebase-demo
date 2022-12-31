@@ -40,15 +40,15 @@ function HomePage() {
       <h1>HomePage</h1>
       <h3>Welcome {user.displayName}!</h3>
 
-      { loading ? 
-      (<h3>Loading...</h3>) : (
-      <div>
-        {posts.map((post) => (
-          <PostCard post={post} />
-        ))}
-      </div>
+      {loading ? (
+        <h1 className="text-center" style={{ margin: '5rem 0' }}>Loading...</h1>
+      ) : (
+        <div>
+          {posts.map((post) => (
+            <PostCard key={post.id} post={post} />
+          ))}
+        </div>
       )}
-
     </div>
   );
 }

@@ -48,13 +48,6 @@ function BlogPostForm({ onSubmitFn, post }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <button
-        type="button"
-        className="btn-primary"
-        onClick={() => setPreview(!preview)}
-      >
-        Preview
-      </button>
       <div>
         <label className="label">Title</label>
         <input
@@ -84,9 +77,24 @@ function BlogPostForm({ onSubmitFn, post }) {
       </div>
 
       <div>
-        <label className="label">Text</label>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <label className="label">Text</label>
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={() => setPreview(!preview)}
+          >
+            {preview ? 'Edit' : 'Preview'}
+          </button>
+        </div>
         {preview ? (
-          <ReactMarkdown>{text}</ReactMarkdown>
+          <ReactMarkdown className="markdown">{text}</ReactMarkdown>
         ) : (
           <textarea
             className="textarea"

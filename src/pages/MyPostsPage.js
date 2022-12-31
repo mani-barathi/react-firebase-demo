@@ -49,7 +49,7 @@ function DraftPostPage() {
     console.log('data', result)
 
     if(result.length === 0){
-      return <p>No posts Exists</p>
+      return <h3 style={{textAlign:"center"}}>No posts Exists</h3>
     }
 
     return result.map((post) => <PostCard post={post} />)
@@ -76,7 +76,7 @@ function DraftPostPage() {
         </button>
       </div>
 
-      { loading ? (<h3>Loading...</h3>) :  <div>{renderPosts()}</div> }
+      { loading ? (<h1 className="text-center">Loading...</h1>) :  <div>{renderPosts()}</div> }
     </div>
   );
 }
