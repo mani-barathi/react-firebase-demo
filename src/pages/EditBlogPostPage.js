@@ -2,9 +2,11 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import BlogPostForm from "../components/BlogPostForm";
+import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 
-function EditBlogPostPage({ user }) {
+function EditBlogPostPage() {
+  const [user] = useAuth();
   const navigate = useNavigate();
   const params = useParams();
   const [post, setPost] = useState();
@@ -62,7 +64,7 @@ function EditBlogPostPage({ user }) {
   return (
     <div className="app">
       <h1>Edit Post</h1>
-      <BlogPostForm post={post} onSubmitFn={updatePost} user={user} />
+      <BlogPostForm post={post} onSubmitFn={updatePost} />
     </div>
   );
 }

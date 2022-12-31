@@ -2,9 +2,11 @@ import { addDoc, collection } from "firebase/firestore";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import BlogPostForm from "../components/BlogPostForm";
+import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 
-function CreateBlogPostPage({ user }) {
+function CreateBlogPostPage() {
+  const [user] = useAuth();
   const navigate = useNavigate();
 
   async function createPost(doc) {

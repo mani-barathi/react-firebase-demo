@@ -1,9 +1,12 @@
 import { signOut } from "firebase/auth";
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { auth } from "../firebase";
 
-function Navbar({ user, setUser }) {
+function Navbar() {
+  const [user, setUser] = useAuth();
+
   function handleLogout() {
     signOut(auth).then(() => {
       setUser(null);

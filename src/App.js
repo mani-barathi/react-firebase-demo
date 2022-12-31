@@ -8,22 +8,25 @@ import LoginPage from "./pages/LoginPage";
 
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthContext } from "./context/AuthContext";
 import EditBlogPostPage from "./pages/EditBlogPostPage";
 import MyPostsPage from "./pages/MyPostsPage";
 import PostContentPage from "./pages/PostContentPage";
+
 
 function App() {
   const [user, setUser] = useState();
 
   return (
+    <AuthContext.Provider value={[user, setUser]}>
     <div>
-      <Navbar user={user} setUser={setUser} />
+      <Navbar />
       <Routes>
         <Route
           path="/"
           element={
             <ProtectedRoute user={user}>
-              <HomePage user={user} />
+              <HomePage />
             </ProtectedRoute>
           }
         />
@@ -35,7 +38,7 @@ function App() {
           path="/myposts"
           element={
             <ProtectedRoute user={user}>
-              <MyPostsPage user={user} />
+              <MyPostsPage />
             </ProtectedRoute>
           }
         />
@@ -44,7 +47,7 @@ function App() {
           path="/edit/:postId"
           element={
             <ProtectedRoute user={user}>
-              <EditBlogPostPage user={user} />
+              <EditBlogPostPage />
             </ProtectedRoute>
           }
         />
@@ -53,14 +56,14 @@ function App() {
           path="/post/:postId"
           element={
             <ProtectedRoute user={user}>
-              <PostContentPage user={user} />
+              <PostContentPage />
             </ProtectedRoute>
           }
         />
 
         <Route
           path="/login"
-          element={<LoginPage user={user} setUser={setUser} />}
+          element={<LoginPage />}
         />
 
         <Route
@@ -82,6 +85,7 @@ function App() {
         />
       </Routes>
     </div>
+    </AuthContext.Provider>
   );
 }
 

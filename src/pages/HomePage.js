@@ -1,10 +1,14 @@
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import PostCard from "../components/PostCard";
 import { db } from "../firebase";
+import { useAuth } from "../context/AuthContext";
 
-function HomePage({ user }) {
+function HomePage() {
+  // const user = useContext(AuthContext);
+  const [user] = useAuth();
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const collectionRef = collection(db, "posts");
@@ -26,6 +30,7 @@ function HomePage({ user }) {
 
       console.log(docs);
       setPosts(docs);
+      setLoading(false);
     });
     //  getDocs(query(collection(db, 'posts')))
   }, []);
@@ -35,11 +40,15 @@ function HomePage({ user }) {
       <h1>HomePage</h1>
       <h3>Welcome {user.displayName}!</h3>
 
+      { loading ? 
+      (<h3>Loading...</h3>) : (
       <div>
         {posts.map((post) => (
           <PostCard post={post} />
         ))}
       </div>
+      )}
+
     </div>
   );
 }

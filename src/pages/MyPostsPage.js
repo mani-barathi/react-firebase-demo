@@ -1,10 +1,14 @@
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import PostCard from "../components/PostCard";
+import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 
-function DraftPostPage({ user }) {
+function DraftPostPage() {
+  // const user = useContext(AuthContext);
+  const [user] = useAuth();
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [isPublishedPosts, setIsPublishedPosts] = useState(true);
 
   useEffect(() => {
@@ -23,18 +27,33 @@ function DraftPostPage({ user }) {
       });
 
       setPosts(docs);
+      setLoading(false)
     });
   }, [user.uid]);
 
   const renderPosts = () => {
-    const data = posts.map((post) => {
-      if (post.published === isPublishedPosts) {
-        return <PostCard post={post} />;
-      }
-      return null;
-    });
+    // const data = posts.map((post) => {
+    //   if (post.published === isPublishedPosts) {
+    //     return <PostCard post={post} />;
+    //   }
+    //   return null;
+    // });
 
-    return data;
+    const result = posts.filter((post) => {
+      if (post.published === isPublishedPosts) {
+        return true
+      }
+      return false;
+    })
+
+    console.log('data', result)
+
+    if(result.length === 0){
+      return <p>No posts Exists</p>
+    }
+
+    return result.map((post) => <PostCard post={post} />)
+
   };
 
   return (
@@ -57,7 +76,7 @@ function DraftPostPage({ user }) {
         </button>
       </div>
 
-      <div>{renderPosts()}</div>
+      { loading ? (<h3>Loading...</h3>) :  <div>{renderPosts()}</div> }
     </div>
   );
 }

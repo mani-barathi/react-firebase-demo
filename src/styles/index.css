@@ -33,6 +33,10 @@ option {
     "Helvetica Neue", sans-serif;
 }
 
+h1,h2,h3,p{
+  margin-bottom: 0.5rem;
+}
+
 button {
   cursor: pointer;
 }

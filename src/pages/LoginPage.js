@@ -3,9 +3,11 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
 import SignUpForm from "../components/SignUpForm";
+import { useAuth } from "../context/AuthContext";
 import { auth, provider } from "../firebase";
 
-function LoginPage({ setUser, user }) {
+function LoginPage() {
+  const [,setUser] = useAuth()
   const navigate = useNavigate();
   const location = useLocation();
 

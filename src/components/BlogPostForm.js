@@ -1,5 +1,7 @@
 import { serverTimestamp } from "firebase/firestore";
 import React, { useState } from "react";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { useAuth } from "../context/AuthContext";
 
 const categoryOptions = [
   "Fashion",
@@ -10,11 +12,13 @@ const categoryOptions = [
   "Lifestyle",
 ];
 
-function BlogPostForm({ onSubmitFn, user, post }) {
+function BlogPostForm({ onSubmitFn, post }) {
+  const [user] = useAuth();
   const [text, setText] = useState(post ? post.text : "");
   const [category, setCategory] = useState(post ? post.category : "");
   const [title, setTitle] = useState(post ? post.title : "");
   const [published, setPublished] = useState(post ? post.published : false);
+  const [preview, setPreview] = useState(false);
 
   const handleTextChange = (e) => {
     console.log("type");
@@ -44,6 +48,13 @@ function BlogPostForm({ onSubmitFn, user, post }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <button
+        type="button"
+        className="btn-primary"
+        onClick={() => setPreview(!preview)}
+      >
+        Preview
+      </button>
       <div>
         <label className="label">Title</label>
         <input
@@ -61,7 +72,7 @@ function BlogPostForm({ onSubmitFn, user, post }) {
           className="select"
           onChange={(e) => setCategory(e.target.value)}
         >
-          <option defaultChecked value={""}>
+          <option defaultChecked value={''}>
             Select a Category
           </option>
           {categoryOptions.map((option) => (
@@ -74,13 +85,17 @@ function BlogPostForm({ onSubmitFn, user, post }) {
 
       <div>
         <label className="label">Text</label>
-        <textarea
-          className="textarea"
-          value={text}
-          onChange={handleTextChange}
-          placeholder="write something..."
-          required
-        ></textarea>
+        {preview ? (
+          <ReactMarkdown>{text}</ReactMarkdown>
+        ) : (
+          <textarea
+            className="textarea"
+            value={text}
+            onChange={handleTextChange}
+            placeholder="write something..."
+            required
+          ></textarea>
+        )}
       </div>
 
       <div className="form-check-group">
@@ -95,7 +110,7 @@ function BlogPostForm({ onSubmitFn, user, post }) {
       </div>
 
       <button className="btn-primary" type="submit">
-        {published ? "Publish" : "Save"}
+        {published ? 'Publish' : 'Save'}
       </button>
     </form>
   );

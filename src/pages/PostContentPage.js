@@ -2,9 +2,11 @@ import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Link, useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 
-function PostContentPage({ user }) {
+function PostContentPage() {
+  const [user] = useAuth();
   const params = useParams();
   const [post, setPost] = useState();
   const [loading, setLoading] = useState(true);
