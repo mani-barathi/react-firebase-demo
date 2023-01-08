@@ -61,7 +61,7 @@ function PostContentPage() {
         {convertTimestamp(post.timestamp)}
       </p>
       {post.coverImageURL && (
-        <img style={{ width: "100%" }} src={post.coverImageURL} />
+        <img style={{ width: "100%" }} src={post.coverImageURL} alt="" />
       )}
       <ReactMarkdown className="markdown">{post.text}</ReactMarkdown>
     </div>
