@@ -1,7 +1,9 @@
 import { serverTimestamp } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useState } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { useAuth } from "../context/AuthContext";
+import { storage } from "../firebase";
 
 const categoryOptions = [
   "Fashion",
@@ -18,11 +20,11 @@ function BlogPostForm({ onSubmitFn, post }) {
   const [category, setCategory] = useState(post ? post.category : "");
   const [title, setTitle] = useState(post ? post.title : "");
   const [published, setPublished] = useState(post ? post.published : false);
+  const [coverImage, setCoverImage] = useState();
   const [preview, setPreview] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const handleTextChange = (e) => {
-    console.log("type");
-    console.log(e.target.value);
     setText(e.target.value);
   };
 
@@ -37,13 +39,56 @@ function BlogPostForm({ onSubmitFn, post }) {
       category,
       title,
       published,
+      // coverImageUrl: ulr
     };
 
     if (!category) {
       doc.category = "Unknown";
     }
 
-    onSubmitFn(doc);
+    // upload image
+    // get image url
+    // add image url in document then uplaod to firestore
+
+    if (!post && coverImage) {
+      const imageRef = ref(storage, `cover-images/${coverImage.name}`);
+      const uploadTask = uploadBytesResumable(imageRef, coverImage);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const uploadProgress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + uploadProgress + "% done");
+          setProgress(uploadProgress);
+        }, // progress function
+        (error) => {
+          alert("Error while uploading image", error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            doc.coverImageURL = downloadURL;
+            doc.coverImageName = coverImage.name;
+            onSubmitFn(doc);
+          });
+        }
+      );
+    } else {
+      onSubmitFn(doc);
+    }
+  }
+
+  function handleImageUpload(e) {
+    const [file] = e.target.files;
+    console.log(file);
+    if (file) {
+      if (file.type.startsWith("image/")) {
+        return setCoverImage(file);
+      } else {
+        alert("File type should be image");
+      }
+    }
+    setCoverImage(null);
   }
 
   return (
@@ -65,7 +110,7 @@ function BlogPostForm({ onSubmitFn, post }) {
           className="select"
           onChange={(e) => setCategory(e.target.value)}
         >
-          <option defaultChecked value={''}>
+          <option defaultChecked value={""}>
             Select a Category
           </option>
           {categoryOptions.map((option) => (
@@ -76,12 +121,30 @@ function BlogPostForm({ onSubmitFn, post }) {
         </select>
       </div>
 
+      {post ? ( // edit
+        <div>
+          {post.coverImageURL && (
+            <img src={post.coverImageURL} width={100} height={60} />
+          )}
+          {/* <button type="button">Delete</button> */}
+        </div>
+      ) : (
+        // create
+        <div>
+          <label for="image">Cover Image</label>
+          <input type="file" onChange={handleImageUpload} />
+          <progress value={progress} max="100">
+            {`${progress}%`}
+          </progress>
+        </div>
+      )}
+
       <div>
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
           <label className="label">Text</label>
@@ -90,7 +153,7 @@ function BlogPostForm({ onSubmitFn, post }) {
             className="btn-primary"
             onClick={() => setPreview(!preview)}
           >
-            {preview ? 'Edit' : 'Preview'}
+            {preview ? "Edit" : "Preview"}
           </button>
         </div>
         {preview ? (
@@ -118,7 +181,7 @@ function BlogPostForm({ onSubmitFn, post }) {
       </div>
 
       <button className="btn-primary" type="submit">
-        {published ? 'Publish' : 'Save'}
+        {published ? "Publish" : "Save"}
       </button>
     </form>
   );

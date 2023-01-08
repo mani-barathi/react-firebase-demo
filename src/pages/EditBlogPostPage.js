@@ -38,12 +38,15 @@ function EditBlogPostPage() {
   async function updatePost(updatedPost) {
     try {
       const docRef = doc(db, "posts", params.postId);
-      await setDoc(docRef, updatedPost);
+      await setDoc(docRef, updatedPost, { merge: true });
       navigate(`/post/${post.id}`);
     } catch (e) {
       console.log("doc failed: ", e);
     }
   }
+
+  // previous -> { title: "sdf", text: "asf",...,...,., coverImageURL : "http;.." }
+  // incoming -> { title: "sdf", text: "updated asf",...,...,., coverImageURL }
 
   if (loading) {
     return (
