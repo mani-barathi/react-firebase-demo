@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { useAuth } from "../context/AuthContext";
 import { storage } from "../firebase";
+import MultiSelectDropDown from "./MultiSelectDropDown";
 
 const categoryOptions = [
   "Fashion",
@@ -22,7 +23,9 @@ const categoryOptions = [
 function BlogPostForm({ onSubmitFn, post }) {
   const [user] = useAuth();
   const [text, setText] = useState(post ? post.text : "");
-  const [category, setCategory] = useState(post ? post.category : "");
+  const [category, setCategory] = useState(
+    post ? post.category : [categoryOptions[2], categoryOptions[3]]
+  );
   const [title, setTitle] = useState(post ? post.title : "");
   const [published, setPublished] = useState(post ? post.published : false);
   const [coverImage, setCoverImage] = useState();
@@ -125,22 +128,12 @@ function BlogPostForm({ onSubmitFn, post }) {
         />
       </div>
 
-      <div>
-        <label className="label">Category</label>
-        <select
-          className="select"
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option defaultChecked value={""}>
-            Select a Category
-          </option>
-          {categoryOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
+      <MultiSelectDropDown
+        optionList={categoryOptions}
+        selectedValue={category}
+        setSelectedValue={setCategory}
+        label={"Category"}
+      />
 
       <div>
         <label className="label" for="image">
@@ -148,22 +141,18 @@ function BlogPostForm({ onSubmitFn, post }) {
         </label>
         {post?.coverImageURL && !isImageDeleted ? ( // edit
           <div style={{ display: "flex", alignItems: "center" }}>
-            {post.coverImageURL && (
-              <>
-                <img src={post.coverImageURL} width={100} height={60} alt="" />
-                <button
-                  className="btn-primary"
-                  type="button"
-                  onClick={handleImageDelete}
-                  style={{ marginLeft: "1rem" }}
-                >
-                  Delete
-                </button>
-              </>
-            )}
+            <img src={post.coverImageURL} width={100} height={60} alt="" />
+            <button
+              className="btn-primary"
+              type="button"
+              onClick={handleImageDelete}
+              style={{ marginLeft: "1rem" }}
+            >
+              Delete
+            </button>
           </div>
         ) : (
-          // create
+          // create page or edit post which doesn't have an image
           <>
             <input id="image" type="file" onChange={handleImageUpload} />
             <progress className="progress" value={progress} max="100">
