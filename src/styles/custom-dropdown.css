@@ -14,7 +14,7 @@
 }
 
 .dropdown:focus-visible {
-  box-shadow: inset 0px 0px 12px -7px rgba(105, 105, 105, 1);
+  outline: 3px solid rgba(141, 212, 253, 0.622);
 }
 
 .dropdown-list {
@@ -37,20 +37,34 @@
   padding: 0.5rem 1rem;
   margin: 0 !important;
   border-bottom: 1px solid rgb(231, 229, 229);
+  border-left: 4px solid transparent;
 }
 
 .dropdown-list-item.selected {
   background-color: rgb(225, 225, 225);
 }
 
-.dropdown-list-item.hoverd,
-.dropdown-list-item:hover {
+.dropdown-list-item:hover,
+.dropdown-list-item.hoverd {
   background-color: rgba(141, 212, 253, 0.622);
+  border-left: 4px solid rgb(33, 130, 186);
+}
+
+.dropdown-value {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .option-button {
-  background-color: rgb(188, 199, 210);
+  background-color: rgba(112, 128, 144, 0.601);
   border-radius: 4px;
   padding: 0.1rem 0.5rem;
-  margin-right: 0.5rem;
+  border: 1px solid slategray;
+  font-size: 14px;
+}
+
+.option-button:hover,
+.option-button:focus {
+  background-color: hwb(0 65% 2%);
 }

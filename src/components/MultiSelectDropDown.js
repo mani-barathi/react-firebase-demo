@@ -6,6 +6,7 @@ const KEYS = {
   ARROW_UP: "ArrowUp",
   ARROW_DOWN: "ArrowDown",
   ESCAPE: "Escape",
+  SPACE: "Space",
 };
 
 function MultiSelectDropDown(props) {
@@ -19,35 +20,55 @@ function MultiSelectDropDown(props) {
 
     currentOptionRef.current?.scrollIntoView({
       behaviour: "smooth",
-      block: "center",
+      block: "nearest",
     });
   }, [currentIndex]);
 
+  function closeDropDown() {
+    setOpen(false);
+  }
+
+  function openDropDown() {
+    setCurrentIndex(0);
+    setOpen(true);
+  }
+
   function handleKeyDown(e) {
-    const key = e.key;
+    const key = e.code;
+    if (!Object.values(KEYS).includes(key)) {
+      return;
+    }
+    e.preventDefault();
 
     switch (key) {
       case KEYS.ARROW_UP: {
-        if (currentIndex === 0) return e.preventDefault();
+        if (!open) {
+          openDropDown();
+          break;
+        }
+        if (currentIndex === 0) return;
         setCurrentIndex((prevIndex) => prevIndex - 1);
-        e.preventDefault();
         break;
       }
 
       case KEYS.ARROW_DOWN: {
-        if (currentIndex === optionList.length - 1) return e.preventDefault();
+        if (!open) {
+          openDropDown();
+          break;
+        }
+        if (currentIndex === optionList.length - 1) return;
         setCurrentIndex((prevIndex) => prevIndex + 1);
-        e.preventDefault();
         break;
       }
 
-      case KEYS.ENTER: {
+      case KEYS.ENTER:
+      case KEYS.SPACE: {
         if (!open) {
           openDropDown();
           break;
         }
         const option = optionList[currentIndex];
-        handleOptionClick(option, currentIndex);
+        addOrRemoveOption(option, currentIndex);
         break;
       }
 
@@ -61,17 +82,7 @@ function MultiSelectDropDown(props) {
     }
   }
 
-  function closeDropDown() {
-    setCurrentIndex(-1);
-    setOpen(false);
-  }
-
-  function openDropDown() {
-    setCurrentIndex(-1);
-    setOpen(true);
-  }
-
-  function handleOptionClick(option, index) {
+  function addOrRemoveOption(option, index) {
     let newSelectedValue = [];
 
     if (selectedValue.includes(option)) {
@@ -83,11 +94,23 @@ function MultiSelectDropDown(props) {
     setSelectedValue(newSelectedValue);
   }
 
+  function handleOptionClick(option, index, e) {
+    e.stopPropagation();
+    addOrRemoveOption(option, index);
+  }
+
   function handleDeleteOption(option, e) {
     const newSelectedValue = selectedValue.filter((item) => option !== item);
     setSelectedValue(newSelectedValue);
-    e.preventDefault();
     e.stopPropagation();
+  }
+
+  function handleOnBlur(e) {
+    console.log(e.target, e.relatedTarget);
+    if (e.relatedTarget && e.target.contains(e.relatedTarget)) {
+      return;
+    }
+    closeDropDown();
   }
 
   return (
@@ -96,18 +119,20 @@ function MultiSelectDropDown(props) {
       <div
         onKeyDown={handleKeyDown}
         tabIndex="0"
-        onClick={openDropDown}
+        onClick={() => (open ? closeDropDown() : openDropDown())}
         className="dropdown form-input"
-        onBlur={closeDropDown}
+        onBlur={handleOnBlur}
       >
-        <div>
+        <div className="dropdown-value">
           {selectedValue.length !== 0 ? (
             selectedValue.map((value) => (
-              <span className="option-button">
-                {value}{" "}
-                <span onClick={(e) => handleDeleteOption(value, e)}>
-                  &#10006;
-                </span>
+              <span
+                className="option-button"
+                onClick={(e) => handleDeleteOption(value, e)}
+                type="button"
+                key={value}
+              >
+                {value} <span>&#10006;</span>
               </span>
             ))
           ) : (
@@ -124,7 +149,9 @@ function MultiSelectDropDown(props) {
                 ${selectedValue.includes(option) ? " selected" : ""} 
                 `}
                 ref={currentIndex === index ? currentOptionRef : null}
-                onClick={() => handleOptionClick(option, index)}
+                onClick={(e) => handleOptionClick(option, index, e)}
+                // onMouseOver={(e) => setCurrentIndex(index)}
+                key={option}
               >
                 {option}
               </li>

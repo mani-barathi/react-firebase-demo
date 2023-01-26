@@ -18,6 +18,9 @@ const categoryOptions = [
   "Travel",
   "Food",
   "Lifestyle",
+  "Product",
+  "Buissnes",
+  "Sports",
 ];
 
 function BlogPostForm({ onSubmitFn, post }) {
@@ -136,7 +139,7 @@ function BlogPostForm({ onSubmitFn, post }) {
       />
 
       <div>
-        <label className="label" for="image">
+        <label className="label" htmlFor="image">
           Cover Image
         </label>
         {post?.coverImageURL && !isImageDeleted ? ( // edit

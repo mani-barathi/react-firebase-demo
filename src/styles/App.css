@@ -58,6 +58,7 @@ h3 {
 .btn-secondary:hover,
 .btn-secondary:focus-visible {
   box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.597);
+  outline: 3px solid rgba(126, 129, 132, 0.622);
 }
 
 .btn-primary:active,
@@ -80,7 +81,7 @@ h3 {
 
 .form-input:focus-visible,
 .select:focus-visible {
-  box-shadow: inset 0px 0px 12px -7px rgba(105, 105, 105, 1);
+  outline: 3px solid rgba(141, 212, 253, 0.622);
 }
 
 .select {
@@ -210,7 +211,7 @@ h3 {
 }
 
 .textarea:focus-visible {
-  box-shadow: inset 0px 0px 12px -7px rgba(105, 105, 105, 1);
+  outline: 3px solid rgba(141, 212, 253, 0.622);
 }
 
 .form-check-group {
