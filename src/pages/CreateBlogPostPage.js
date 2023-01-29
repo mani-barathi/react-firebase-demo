@@ -3,11 +3,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import BlogPostForm from "../components/BlogPostForm";
 import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 import { db } from "../firebase";
 
 function CreateBlogPostPage() {
   const [user] = useAuth();
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   async function createPost(doc) {
     // then version
@@ -22,9 +24,17 @@ function CreateBlogPostPage() {
     try {
       const snapshot = await addDoc(collection(db, "posts"), doc);
       console.log("doc inserted: ", snapshot.id);
+      addToast({
+        title: `Post ${doc.published ? "Published" : "Saved"}`,
+        type: "success",
+      });
       navigate("/");
     } catch (e) {
       console.log("doc failed: ", e);
+      addToast({
+        title: `Error while Posting`,
+        type: "error",
+      });
     }
   }
 

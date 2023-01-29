@@ -1,5 +1,5 @@
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PostCard from "../components/PostCard";
 import { db } from "../firebase";
 import { useAuth } from "../context/AuthContext";
@@ -28,7 +28,6 @@ function HomePage() {
         return { id: doc.id, ...data };
       });
 
-      console.log(docs);
       setPosts(docs);
       setLoading(false);
     });
@@ -41,7 +40,9 @@ function HomePage() {
       <h3>Welcome {user.displayName}!</h3>
 
       {loading ? (
-        <h1 className="text-center" style={{ margin: '5rem 0' }}>Loading...</h1>
+        <h1 className="text-center" style={{ margin: "5rem 0" }}>
+          Loading...
+        </h1>
       ) : (
         <div>
           {posts.map((post) => (

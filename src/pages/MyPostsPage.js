@@ -16,7 +16,6 @@ function DraftPostPage() {
     const q = query(
       collectionRef,
       orderBy("timestamp", "desc"),
-      // where("published", "==", false),
       where("authorId", "==", user.uid)
     );
 
@@ -27,33 +26,23 @@ function DraftPostPage() {
       });
 
       setPosts(docs);
-      setLoading(false)
+      setLoading(false);
     });
   }, [user.uid]);
 
   const renderPosts = () => {
-    // const data = posts.map((post) => {
-    //   if (post.published === isPublishedPosts) {
-    //     return <PostCard post={post} />;
-    //   }
-    //   return null;
-    // });
-
     const result = posts.filter((post) => {
       if (post.published === isPublishedPosts) {
-        return true
+        return true;
       }
       return false;
-    })
+    });
 
-    console.log('data', result)
-
-    if(result.length === 0){
-      return <h3 style={{textAlign:"center"}}>No posts Exists</h3>
+    if (result.length === 0) {
+      return <h3 style={{ textAlign: "center" }}>No posts Exists</h3>;
     }
 
-    return result.map((post) => <PostCard post={post} />)
-
+    return result.map((post) => <PostCard key={post.id} post={post} />);
   };
 
   return (
@@ -76,7 +65,11 @@ function DraftPostPage() {
         </button>
       </div>
 
-      { loading ? (<h1 className="text-center">Loading...</h1>) :  <div>{renderPosts()}</div> }
+      {loading ? (
+        <h1 className="text-center">Loading...</h1>
+      ) : (
+        <div>{renderPosts()}</div>
+      )}
     </div>
   );
 }

@@ -27,7 +27,7 @@ function BlogPostForm({ onSubmitFn, post }) {
   const [user] = useAuth();
   const [text, setText] = useState(post ? post.text : "");
   const [category, setCategory] = useState(
-    post ? post.category : [categoryOptions[2], categoryOptions[3]]
+    post ? (Array.isArray(post.category) ? post.category : [post.category]) : []
   );
   const [title, setTitle] = useState(post ? post.title : "");
   const [published, setPublished] = useState(post ? post.published : false);
@@ -88,16 +88,16 @@ function BlogPostForm({ onSubmitFn, post }) {
           alert("Error while uploading image", error);
         },
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             console.log("File available at", downloadURL);
             doc.coverImageURL = downloadURL;
             doc.coverImageName = coverImage.name;
-            onSubmitFn(doc);
+            await onSubmitFn(doc);
           });
         }
       );
     } else {
-      onSubmitFn(doc);
+      await onSubmitFn(doc);
     }
   }
 

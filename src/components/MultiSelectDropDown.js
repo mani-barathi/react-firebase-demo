@@ -106,7 +106,6 @@ function MultiSelectDropDown(props) {
   }
 
   function handleOnBlur(e) {
-    console.log(e.target, e.relatedTarget);
     if (e.relatedTarget && e.target.contains(e.relatedTarget)) {
       return;
     }

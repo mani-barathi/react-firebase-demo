@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import BlogPostForm from "../components/BlogPostForm";
 import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 import { db } from "../firebase";
 
 function EditBlogPostPage() {
@@ -12,6 +13,7 @@ function EditBlogPostPage() {
   const [post, setPost] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const { addToast } = useToast();
 
   useEffect(() => {
     const docRef = doc(db, "posts", params.postId);
@@ -39,9 +41,17 @@ function EditBlogPostPage() {
     try {
       const docRef = doc(db, "posts", params.postId);
       await setDoc(docRef, updatedPost, { merge: true });
+      addToast({
+        title: `Post ${doc.published ? "Published" : "Saved"}`,
+        type: "success",
+      });
       navigate(`/post/${post.id}`);
     } catch (e) {
       console.log("doc failed: ", e);
+      addToast({
+        title: `Error while Posting`,
+        type: "error",
+      });
     }
   }
 
